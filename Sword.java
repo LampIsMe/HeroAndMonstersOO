@@ -3,7 +3,6 @@ public class Sword{
     String type;
     public Sword(String swordtype){
         type = swordtype;
-        setItem(type);
     }
     public void setType(String t){
         type = t;
