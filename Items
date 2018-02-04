@@ -1,0 +1,11 @@
+public abstract class Items{
+    private String type;
+    public void setItem(String type){
+        this.type = type;
+    }
+    public String getName(){
+        return type;
+        
+    }
+    
+}
