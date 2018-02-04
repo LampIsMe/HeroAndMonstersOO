@@ -1,8 +1,9 @@
-public class Sword{
+public class Sword extends Items{
     int damage;
     String type;
     public Sword(String swordtype){
         type = swordtype;
+        setItem(type);
     }
     public void setType(String t){
         type = t;
