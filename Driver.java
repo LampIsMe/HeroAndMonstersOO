@@ -7,19 +7,19 @@ public class Driver{
         Map map = new Map();
         try{
             System.out.println("A world of darkness...");
-            Thread.sleep(500); 
-            System.out.println("A city is left demolished...");
-            Thread.sleep(500);
-            System.out.println("There is no one left in sight...");
-            Thread.sleep(500);
+            Thread.sleep(100); 
+            System.out.println("My harem is gone...");
+            Thread.sleep(100);
+            System.out.println("Where are they all?");
+            Thread.sleep(100);
             System.out.println("Silence...");
-            Thread.sleep(500);
+            Thread.sleep(100);
             System.out.println("But wait...you see something moving...");
-            Thread.sleep(500);
+            Thread.sleep(100);
             System.out.println("Help...");
-            Thread.sleep(500); 
-            System.out.println("Is someone there?");
-            Thread.sleep(500);
+            Thread.sleep(100); 
+            System.out.println("Do you want to spawn?");
+            Thread.sleep(100);
         }
         catch(InterruptedException e){System.out.println("got interrupted!");
         }
@@ -27,11 +27,11 @@ public class Driver{
         String answer = scan.next();
         answer.toLowerCase();
         if (answer.equals("yes")){
-            System.out.println("Thank you so much");
-            System.out.println("Our city is in need of help, save us");
+            System.out.println("Hello sir?");
+            System.out.println("I believe in you! You are the chosen one, the one who will save your harem!");
             betrayal = true;
         }else{
-            System.out.println("You walk past the villager");
+            System.out.println("You walk past the distraught NPC");
             betrayal = false;
         }
         System.out.println("Rules:\nMove around using the WASD keys\nDefeat all monsters\nSave the villagers\nGood luck");
