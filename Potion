@@ -1,0 +1,53 @@
+public class Potion{
+    int potionx;
+    int potiony;
+    int potency;
+    String type;
+    int health;
+    public Potion(String inittype){
+        potionx = (int)(Math.random() * 15);
+        potiony = (int)(Math.random() * 15);
+        type = inittype;
+    }
+
+    public int getx(){
+        return potiony;
+    }
+
+    public int gety(){
+        return potionx;
+    }
+
+    public int setPotency(int herohealth){
+        health = herohealth;
+        if (type.equals("1/2 energy" )){
+            potency = (int)((100-health)/2);
+        }
+        if (type.equals("full energy")){
+            potency = (int)(100 - health) ;
+        }
+        if (type.equals("pheonix down")){
+            potency = 100;
+        }
+        return potency;
+    }
+    public int getPotency(){
+        return potency;
+    }
+    public void resetx(){
+        potiony = (int)(Math.random() * 10) ;
+    }
+
+    public void resety(){
+        potionx = (int)(Math.random() * 10);
+    }
+
+    public String toString2(){
+        return "You have gained a " + type + "which heals " + getPotency();
+    }
+
+    public String toString(){
+        return type;
+    }
+
+}
