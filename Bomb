@@ -1,0 +1,26 @@
+ public class Bomb{
+    int damage;
+    String type;
+    
+    public Bomb(String bombtype){
+        type = bombtype;
+        if (type.equals("bomby 1")){
+            damage = (int)(Math.random()*30) + 100000;
+            
+        }
+    }
+    public void setType(String t){
+        type = t;
+        
+    }
+    public int getDamage(){
+        return damage;
+    }
+    public String getName(){
+        return type;
+        
+    }
+    public String toString(){
+        return type;
+    }
+}
