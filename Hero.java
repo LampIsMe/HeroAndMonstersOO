@@ -1,54 +1,24 @@
 import java.util.*;
-public class Hero extends Items{
+public class Hero{
     private int health;
-    Sword weapon;
-    Armor armor;
+    private int daggerdamage;
+    private double armor;
     private int herox;
     private int heroy;
     private int damage;
     private int speed;
+    private int gold;
     public Hero(){
         health = 100;
         heroy = 0;
         herox = 14;
-        weapon = new Sword("dagger");
-        armor = new Armor("none");
-        
+        daggerdamage = (int)(Math.random()*40)+150;
+        armor = 0.0;
         speed = 25;
-    }
-
-    public void addHealth(int add){
-        health = add + health;
-    }
-    
-    public int getspeed(){
-        return speed;
-    }
-    
-    public void setspeed(int a){
-        speed = speed + a;
+        gold = 500;
     }
     
     
-    public double getDefence(){
-        return armor.getDefence();
-    }
-    
-    public void up(){
-        herox = herox -1;
-    }
-
-    public void left(){
-        heroy = heroy -1;
-    }
-
-    public void right(){
-        heroy = heroy + 1;
-    }
-
-    public void  down(){
-        herox = herox + 1;
-    }
 
     public boolean checkup(){
         if (herox -1<0){
@@ -101,12 +71,58 @@ public class Hero extends Items{
     public int gethealth(){
         return health;
     }
-   
+    
     public int herodamage(){
-        return weapon.getDamage();
+        return daggerdamage;
     }
     
     public void updateHealth(int herohealth){
         health = herohealth;
+    }
+    public int getGold(){
+        return gold;
+    }
+    public void addGold(int add){
+        gold = gold + add;
+    }
+    public void addHealth(int add){
+        health = add + health;
+    }
+    public void spend(int substract){
+        gold = gold - substract;
+    }
+    public void addDamage(int add){
+        daggerdamage = add +daggerdamage;
+    }
+    
+    public int getspeed(){
+        return speed;
+    }
+    
+    public void setspeed(int a){
+        speed = a;
+    }
+    public void addDefence(double add){
+        armor = add + armor;
+    }
+    
+    public double getDefence(){
+        return armor;
+    }
+    
+    public void up(){
+        herox = herox -1;
+    }
+
+    public void left(){
+        heroy = heroy -1;
+    }
+
+    public void right(){
+        heroy = heroy + 1;
+    }
+
+    public void  down(){
+        herox = herox + 1;
     }
 }
