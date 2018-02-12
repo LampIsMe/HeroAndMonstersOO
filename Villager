@@ -7,23 +7,42 @@ public class Villager{
     public Villager(int num){
         villagerx = (int)(Math.random() * 15);
         villagery = (int)(Math.random() * 15);
-        
+
     }
 
-    public String Vi(int num){
+    public String Vi(int num, int counter, boolean firstBoss, boolean secondBoss, boolean thirdBoss){
         Scanner a = new Scanner(System.in);
-        
         if (num ==0){
             System.out.println("That bag looks a bit small");
             System.out.println("Would you like to buy a Satchel for 30 gold");
+            System.out.println("I'm also selling breastplate for 30 gold");
+            if (counter>=3 && firstBoss == false){
+                System.out.println("Pss....don't tell anyone, but I've heard of a Phoenix Dragon, that imprisoned a harem.");
+                System.out.println("It is located near the south-east corner of the town");
+            }
             String answer = a.next().toLowerCase();
             if (answer.equals("yes")){
-                return "satchel";
+
+                System.out.println("1) Satchel 2) breastplate");
+                int answer2 = a.nextInt();
+                if (answer2  == 1){
+                    return "satchel";}
+                else if (answer2 == 2){
+                    return "breastplate";
+                }
+            }else {
+
+                return "Come again!";
             }
         }
         else if (num == 1){
-            System.out.println("Weapons for sale...starting from a low price of 10 gold");
+            if (counter>=6 && firstBoss == true && secondBoss == false){
+                System.out.println("Pss....don't tell anyone, but I've heard of a Phoenix Dragon, that imprisoned a harem.");
+                System.out.println("It is located near the south-west corner of the town");
+            }
+            System.out.println("Weapons for sale...starting from a low price of 30 gold");
             System.out.println("Would you like to buy something?");
+            System.out.println("Here is a free map");
             String answer = a.next().toLowerCase();
             if (answer.equals("yes")){
                 System.out.println("1) Short Sword(30 gold), 2) Long Sword(40 gold), 3) Battle Axe(100 gold)");
@@ -37,25 +56,42 @@ public class Villager{
                 else if (answer2 == 3){
                     return "battle axe (OP)";
                 }
+            }else {
+                return "Come again!";
+
             }
         }
         else if (num == 2){
+            if (counter>=9 && firstBoss == true && secondBoss == true && thirdBoss == false){
+                System.out.println("Pss....don't tell anyone, but I've heard of a Phoenix Dragon, that imprisoned a harem.");
+                System.out.println("It is located near the north-west corner of the town");
+            }
             System.out.println("Hi, I have a pair of Leather Sandels for you");
             System.out.println("Would you like to buy it for 30 gold");
             String answer = a.next().toLowerCase();
             if (answer.equals("yes")){
                 return "leather sandels";
+            }else {
+                return "Come again!";
             }
         }
         else if (num ==3){
+            if (counter>=12 && firstBoss == true && secondBoss == true && thirdBoss == true){
+                System.out.println("Pss....don't tell anyone, but I've heard of a Phoenix Dragon, that imprisoned a harem.");
+                System.out.println("It is located near the north-east corner of the town");
+            }
             System.out.println("Buy this OP bomb for only 90 gold");
             System.out.println("Hey you...would you like to buy one?");
             String answer = a.next().toLowerCase();
             if (answer.equals("yes")){
                 return "bomb";
+            }else {
+                return "Come again!";
+
             }
         }
         else if (num ==4){
+            
             System.out.println("Potions are sold here");
             System.out.println("Hey you...would you like to buy one?");
             String answer = a.next().toLowerCase();
@@ -71,9 +107,12 @@ public class Villager{
                 else if (answer2 == 3){
                     return "pheonix down";
                 }
+            }else {
+                return "Come again!";
+
             }
         }
-        return "";
+        return "Come again! ";
     }
 
     public int getx(){
