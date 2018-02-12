@@ -1,0 +1,9 @@
+public interface Boss{
+    int getHealth();
+    void setX(int x);
+    void setY(int y);
+    int getX();
+    int getY();
+    String speech(int num);
+    int battle(int speed, Inventory inv);
+}
