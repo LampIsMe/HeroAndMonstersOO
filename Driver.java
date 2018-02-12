@@ -18,7 +18,7 @@ public class Driver{
             Thread.sleep(100);
             System.out.println("Help...");
             Thread.sleep(100); 
-            System.out.println("Do you want to spawn?");
+            System.out.println("Do you want to save your harem?");
             Thread.sleep(100);
         }
         catch(InterruptedException e){System.out.println("got interrupted!");
@@ -31,7 +31,7 @@ public class Driver{
             System.out.println("I believe in you! You are the chosen one, the one who will save your harem!");
             betrayal = true;
         }else{
-            System.out.println("You walk past the distraught NPC");
+            System.out.println("Who wouldn't want to save a harem?! You still have to do it, sucks to be you");
             betrayal = false;
         }
         System.out.println("Rules:\nMove around using the WASD keys\nDefeat all monsters\nSave the villagers\nGood luck");
@@ -46,7 +46,7 @@ public class Driver{
                     try{
                         System.out.println("As you strike the final blow...");
                         Thread.sleep(800);
-                        System.out.println("You fall down...");
+                        System.out.println("You collapse down on the ground...");
                         Thread.sleep(1000);
                         System.out.print("Exhausted...");
                         Thread.sleep(500);
@@ -58,9 +58,42 @@ public class Driver{
                         Thread.sleep(500);
                         System.out.println("You close your eyes knowing that...");
                         Thread.sleep(1000);
-                        System.out.println("The world, at the very least this town, is safe once again...");
+                        System.out.println("Your harem is saved...");
                         Thread.sleep(2000);
                         System.out.println("THE END");
+                        Thread.sleep(2000);
+                        for (int i = 0; i < 5; i++){
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                            System.out.println("CREDITS TO ETHAN W. AND ETHAN W.");
+                            Thread.sleep(500);
+                        }	
                         break;
                     }
                     catch(InterruptedException e){System.out.println("got interrupted!");
