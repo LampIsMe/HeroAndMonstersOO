@@ -30,18 +30,104 @@ public class Inventory{
     public int getSize(){
         return items.size();
     }
+    public String getType(){
+        return bagType;
+    }
     public void setType(String initbagType){
         bagType = initbagType;
         if (bagType.equals("satchel")){
             limiting = 9;
         }
     }
+    public boolean checkPotions(){
+        
+        for (int i = 0; i < items.size(); i ++){
+            
+            if ((!items.get(i).equals("1/2 energy")) && (!items.get(i).equals("1/2 potion")) &&(!items.get(i).equals("pheonix down"))){
+                return false;
+            }
+            
+        }
+        if (limiting == 9){
+        return true;}else{
+        return false;}
+    }
+    public boolean checkSS(){
+        for (int i = 0; i < items.size(); i ++){
+            if (items.get(i).equals("short sword")){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean checkPhoenix(){
+        int y = 0;;
+        int z = 0;;
+        for (int i = 0; i < items.size(); i ++){
+            if (items.get(i).equals("long sword")){
+                y++;
+            }
+        }
+        for (int i = 0; i < items.size(); i ++){
+            if (items.get(i).equals("pheonix down")){
+                z++;
+            }
+        }
+        if (y>=1 && z >=1){
+            return true;
+        }
+        return false;
+    }
+    public void removePheonix(){
+        
+        for (int i = 0; i < items.size(); i ++){
+            if (items.get(i).equals("pheonix down")){
+                items.remove(items.get(i));
+                break;
+            }
+        }
+    }
+    public boolean hasPheonix(){
+        for (int i = 0; i < items.size(); i ++){
+            if (items.get(i).equals("pheonix down")){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean checkFinal(double armor, int speed){
+        
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        int zz = 0;
+        if (armor>0){
+            x++;
+        }
+        if (speed> 25){
+            y++;
+        }
+        for (int i = 0; i < limiting; i ++){
+            if (items.get(i).equals("battle axe (OP)")){
+                z++;
+            }
+        }
+        for (int i = 0; i < limiting; i ++){
+            if (items.get(i).equals("pheonix down")){
+                zz++;
+            }
+        }
+        if (x>0 && y > 0 && z > 0 && zz >= 3){
+            return true;
+        }
+        return false;
+    }
     public void setItem(Object item, int initeffect){
         if(counter <= limiting){
             items.add(item);
             effect = initeffect;
             System.out.println("Item successfully equiped");
-            
+            counter ++;
         }else{System.out.println("Your inventory is full");}
     }
     public int getEffect(int a){
