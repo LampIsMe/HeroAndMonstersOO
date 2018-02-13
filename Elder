@@ -1,0 +1,81 @@
+
+import java.util.Scanner;
+public class Elder implements Boss{
+    public int x;
+    public int y;
+    public int health = 2500;
+    public int dmg = 70;
+    public int mspeed = 10;
+    double harmor;
+    int hspeed;
+   
+    public Elder(double armor, int speed){
+        harmor = armor;
+        hspeed = speed;
+        
+    }
+    public int getDmg(){
+        return dmg;
+    }
+    public int getHealth(){
+        return health;
+    }
+    public void setX(int x){
+        this.x = x;
+    }
+    public void setY(int y){
+        this.y = y;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
+    public String speech(int num){
+        String s = new String();
+        if (num == 1){
+            s += "Maybe next time, but not today.";
+            
+        }else if (num == 2){
+            s += "Well done. Good luck to your future adventures.";
+            
+        }
+        return s;
+    }
+    public int battle( int speed,  Inventory inv){
+
+        Scanner a = new Scanner(System.in);
+        
+        Inventory inve = inv;
+        boolean e = false;
+        boolean f = false;
+        try{
+            System.out.println("Boss encountered");
+            if (inv.checkFinal(harmor, hspeed)== false){
+                System.out.println("It is unfortunate that you are ill-prepared for the battle with me\nYou do not have armor, sandals, battle axe, and 3 Pheonix downs\n1)Run or 2)Die");
+                int c = a.nextInt();
+                if (c ==1){
+                    if (speed -15>mspeed){
+                        System.out.println("Come prepared next time...");
+                        Thread.sleep(600);
+                        return 1010;
+                    }
+                }
+                System.out.println("It is unfortunate to end such a young life");
+                System.out.println("Boss strikes with 10000000000 damage");
+                Thread.sleep(600);
+                return 0;
+            }
+            System.out.println("You defeated the Final Boss");
+            System.out.println("The townspeople cheer");
+            Thread.sleep(1000);
+            return 1;
+            
+        }catch(InterruptedException j){System.out.println("got interrupted!");
+
+        }
+
+        return 0;
+    }
+}
