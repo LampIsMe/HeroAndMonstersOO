@@ -1,0 +1,1151 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Arrays;
+public class Map{
+    ArrayList<Monster>monsterArray = new ArrayList<Monster>();
+    ArrayList<Potion>potionArray = new ArrayList<Potion>(); 
+    ArrayList<Potion>potionArray2 = new ArrayList<Potion>();
+    ArrayList<Villager>villagerArray = new ArrayList<Villager>();
+    ArrayList<Boss>bossArray = new ArrayList<Boss>();
+    Inventory inv = new Inventory();
+    int [][]map = new int[15][15];
+    double[][]promap = new double[15][15];
+    String [][]printedMap = new String[15][15];
+    String [][]enc = new String[15][15];
+    Scanner scan = new Scanner(System.in);
+    Hero ethan = new Hero();
+    boolean hasMap = false;
+    int counter = 0;
+    int bosscounter = 0;
+    String b = "";
+    public void Map(){
+        System.out.println("You currently have a dagger and trousers");
+        boolean check = false;
+        String t = "";
+        monsterArray.add(new Monster(1));
+        monsterArray.add(new Monster(2));
+        monsterArray.add(new Monster(3));
+        monsterArray.add(new Monster(4));
+        monsterArray.add(new Monster(5));
+        monsterArray.add(new Monster(6));
+
+        villagerArray.add(new Villager(1));
+        villagerArray.add(new Villager(2));
+        villagerArray.add(new Villager(3));
+        villagerArray.add(new Villager(4));
+        villagerArray.add(new Villager(5));
+        while(check==false){
+            for (int i = 0; i < 15; i ++){
+                for (int j = 0; j < 15; j++){
+                    map[i][j] = 0;
+                }
+            }
+            for (int i = 0; i < 15; i ++){
+                for (int j = 0; j < 15; j++){
+                    printedMap[i][j] = "XXXX";
+                }
+            }
+            for (int i = 0; i < 15; i ++){
+                for (int j = 0; j < 15; j++){
+                    promap[i][j] = 0.1;
+                }
+            }
+            for (int i = 0; i < 15; i ++){
+                for (int j = 0; j < 15; j++){
+                    enc[i][j] = "XXXX";
+                }
+            }
+            map[ethan.getx()][ethan.gety()] = 9;            
+            printedMap[14][0] = "HERO";
+            boolean check1 = true;
+            boolean check2 = true;
+            boolean check3 = true;
+            boolean check4 = true;
+            boolean check5 = true;
+            for (int i = 0; i < monsterArray.size(); i ++){
+                if (map[monsterArray.get(i).getx()][monsterArray.get(i).gety()]==0){
+                    map[monsterArray.get(i).getx()][monsterArray.get(i).gety()]=1;
+
+                }
+                else{
+                    monsterArray.get(i).resetx();
+                    monsterArray.get(i).resety();
+                    check2 = false;
+                }
+            }
+
+            for (int i = 0; i < potionArray.size(); i ++){
+                if (map[potionArray.get(i).getx()][potionArray.get(i).gety()]==0){
+                    map[potionArray.get(i).getx()][potionArray.get(i).gety()]=2;
+
+                }
+                else{
+                    potionArray.get(i).resetx();
+                    potionArray.get(i).resety();
+                    check2 = false;
+                }
+            }
+
+            for (int i = 0; i < villagerArray.size(); i ++){
+                if (map[villagerArray.get(i).getx()][villagerArray.get(i).gety()]==0){
+                    map[villagerArray.get(i).getx()][villagerArray.get(i).gety()]=5;
+                }
+                else{
+                    villagerArray.get(i).resetx();
+                    villagerArray.get(i).resety();
+                    check5 = false;
+                }
+            }
+
+            if(check1 == true && check2 == true && check3 == true && check4 == true && check5 == true){
+                check = true;
+            }
+
+            try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+        printMap(printedMap, t);
+    }
+
+    public void printMap(String[][] printedMap, String t){
+        for (int i = 0; i < 15; i ++){
+            for (int j = 0; j < 15; j++){
+                t = t + " " + printedMap[i][j];
+            }
+            t = t + "\n";
+        }
+        System.out.println(t);
+    }
+
+    public String play(){
+        Location loc = new Location();
+        boolean pot = false;
+        String a = scan.next();
+        Scanner d = new Scanner(System.in);
+        int rand=0;
+        //-1,0 = up 
+        int orientation;
+        if (counter>= 1 && bosscounter == 0){
+
+            Kid kid1 = new Kid();
+            bossArray.add(kid1);
+            
+            try{Thread.sleep(200);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+        else if (counter>= 2 && bosscounter == 1){
+            
+            Teen teen1 = new Teen();
+            bossArray.add(teen1);
+            
+            try{Thread.sleep(200);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+        else if (counter >= 3&& bosscounter == 2){
+
+            Parent parent1 = new Parent();
+            bossArray.add(parent1);
+            
+            try{Thread.sleep(200);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+        else if (counter >= 4&& bosscounter == 3){
+            Elder elder1 = new Elder (ethan.getDefence(), ethan.getspeed());
+            bossArray.add(elder1);
+            try{Thread.sleep(200);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+        for (int i = 0 ; i < bossArray.size(); i ++){
+            map[bossArray.get(i).getX()][bossArray.get(i).getY()]=11;
+        }
+        if (a.equals("w")){
+
+            if (ethan.checkup()==true){
+                if (loc.check(ethan.getx()-1,ethan.gety(), monsterArray, potionArray,  villagerArray)==1){
+                    System.out.println("You have encountered a monster");
+                    for (int i = 0; i < monsterArray.size(); i++){
+
+                        if(ethan.getx()-2 == monsterArray.get(i).getx() && ethan.gety() == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[ethan.getx()-2][ethan.gety()] = "MONS";
+                            updateprintedMap(ethan.getx()-2, ethan.gety(), "MONS");
+
+                        }
+                        else if(ethan.getx() == monsterArray.get(i).getx() && ethan.gety() == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[ethan.getx()][ethan.gety()] = "MONS";
+                            updateprintedMap(ethan.getx(), ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx()-1 == monsterArray.get(i).getx() && ethan.gety()+1 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[ethan.getx()-1][ethan.gety()+1] = "MONS";
+                            updateprintedMap(ethan.getx()-1, ethan.gety()+1, "MONS");
+                        }
+                        else if(ethan.getx()-1 == monsterArray.get(i).getx() && ethan.gety()-1 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[ethan.getx()-1][ethan.gety()-1] = "MONS";
+                            updateprintedMap(ethan.getx()-1, ethan.gety()-1, "MONS");
+                        }
+
+                    }
+                    printMap2(printedMap, b);
+                    orientation = -1;
+                    enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="MONS";
+                    int e = monsterArray.get(rand).battle(ethan.gethealth(), ethan.herodamage(), ethan.getDefence(), ethan.getspeed(), orientation, inv);
+
+                    if(e==0){
+                        System.out.println("GAME OVER");
+                        return "failed";
+                    }
+                    else if (e==1010){
+                        System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                        ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                        printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                    }
+                    else {
+                        System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                        ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                        map[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]=0;
+                        printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                        enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                        counter ++;
+                    }
+                    promap[ethan.getx()][ethan.gety()]=promap[ethan.getx()][ethan.gety()]+0.1;
+                }
+                if (loc.check(ethan.getx()-2,ethan.gety(), monsterArray, potionArray,  villagerArray)==5){
+                    for (int i = 0; i < villagerArray.size(); i++){
+                        if(ethan.getx()-3 == villagerArray.get(i).getx() && ethan.gety() == villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()-3][ethan.gety()] = "FARM";
+                        }
+                        else if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety() ==villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()-1][ethan.gety()] = "FARM";
+                        }
+                        else if(ethan.getx()-2 == villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[ethan.getx()-2][ethan.gety()+1] = "FARM";
+                        }
+                        else if(ethan.getx()-2 == villagerArray.get(i).getx() && ethan.gety()-1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[ethan.getx()-2][ethan.gety()-1] = "FARM";
+                        }
+
+                    }
+                }
+                if (loc.check(ethan.getx()-1,ethan.gety(), monsterArray, potionArray,  villagerArray)==5){
+                    for (int i = 0; i < villagerArray.size(); i++){
+                        if(ethan.getx()-2 == villagerArray.get(i).getx() && ethan.gety() == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()] = "FARM";
+                        }
+                        else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety() ==villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()] = "FARM";
+                        }
+                        else if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()] = "FARM";
+                        }
+                        else if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety()-1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()] = "FARM";
+                        }
+
+                    }
+                    System.out.println("You have found a villager");
+                    enc[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]="FARM";
+                    String check5 = villagerArray.get(rand).Vi(rand, counter, bosscounter);
+                    if (check5.equals("satchel")){
+                        if (ethan.getGold()>= 30){
+                            ethan.spend(30);
+                            inv.setType("satchel");
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("short sword")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            Sword ss = new Sword("short sword");
+                            inv.setItem(ss, ss.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("long sword")){
+                        if (ethan.getGold()>=40){
+                            ethan.spend(40);
+                            Sword ls = new Sword("long sword");
+                            inv.setItem(ls, ls.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("battle axe (OP)")){
+                        if (ethan.getGold()>=100){
+                            ethan.spend(100);
+                            Sword as = new Sword("battle axe (OP)");
+                            inv.setItem(as, as.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("1/2 energy")){
+                        if (ethan.getGold()>=20){
+                            ethan.spend(20);
+                            Potion p = new Potion("1/2 energy");
+                            p.setPotency(ethan.gethealth());
+                            inv.setItem(p, p.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("full energy")){
+                        if (ethan.getGold()>=40){
+                            ethan.spend(40);
+                            Potion fp = new Potion("full energy");
+                            fp.setPotency(ethan.gethealth());
+                            inv.setItem(fp, fp.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("pheonix down")){
+                        if (ethan.getGold()>=80){
+                            ethan.spend(80);
+                            Potion fd = new Potion("pheonix down");
+                            fd.setPotency(ethan.gethealth());
+                            inv.setItem(fd, fd.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("leather sandels")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            ethan.setspeed(ethan.getspeed()*2);
+                            System.out.println("Speed has doubled");
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("bomb")){
+                        if (ethan.getGold()>=90){
+                            ethan.spend(90);
+                            Bomb b = new Bomb("bomb 1");
+                            inv.setItem(b, b.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("breastplate")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            Armor ar = new Armor("breastplate");
+                            inv.setItem(ar, ar.getDefence());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    if (rand==1){
+                        hasMap = true;
+                    }
+
+                    try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                    }
+                    printMap2(printedMap, b);
+                    try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                    }
+                    printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]="XXXX";
+                }
+                if (map[ethan.getx()-1][ethan.gety()]==11){
+                    printedMap[ethan.getx()-1][ethan.gety()]= "BOSS";
+                    int e = bossArray.get(bossArray.size()-1).battle(ethan.getspeed(),inv);
+                    if (e == 0){
+                        if (inv.hasPheonix()==true){
+                            inv.removePheonix();
+                            System.out.println("You have been revived using pheonix tear");
+                        }
+                        else{ethan.updateHealth(0);}
+                    }
+                    else if (e == 1010){
+                        System.out.println("You have successfully escaped");
+                    }
+                    else{map[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]=0;
+                        printedMap[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]="XXXX";
+                        bosscounter++;}
+                }
+
+            }
+            if (ethan.checkup() == true){
+
+                printMap2(printedMap, b);
+                map[ethan.getx()][ethan.gety()]= 0;
+                printedMap[ethan.getx()][ethan.gety()]= "XXXX";
+                ethan.up();
+                map[ethan.getx()][ethan.gety()]= 9;
+            }
+        }
+        else if (a.equals("a")){
+
+            if (ethan.checkleft() == true){
+                if (loc.check(ethan.getx(),ethan.gety()-1, monsterArray, potionArray,  villagerArray)==1){
+                    System.out.println("You have encountered a monster");
+                    for (int i = 0; i < monsterArray.size(); i++){
+                        if(ethan.getx()-1 == monsterArray.get(i).getx() && ethan.gety()-1 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx(), ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx()+1 == monsterArray.get(i).getx() && ethan.gety()-1 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx(), ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx() == monsterArray.get(i).getx() && ethan.gety() == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx(), ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx() == monsterArray.get(i).getx() && ethan.gety()-2 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx(), ethan.gety(), "MONS");
+                        }
+                    }
+                    printMap2(printedMap, b);
+                    orientation = 0;
+                    enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="MONS";
+                    int e = monsterArray.get(rand).battle(ethan.gethealth(), ethan.herodamage(), ethan.getDefence(), ethan.getspeed(), orientation,inv);
+
+                    if(e==0){
+                        System.out.println("GAME OVER");
+                        return "failed";
+                    }
+                    else if (e==1010){
+                        System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                        ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                        printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                    }
+                    else {
+                        System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                        ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                        map[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]=0;
+                        printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                        enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                        counter++;
+                        ethan.addGold(10);
+                    }
+                }
+
+                if (loc.check(ethan.getx(),ethan.gety()-2, monsterArray, potionArray ,  villagerArray)==5){
+                    for (int i = 0; i < villagerArray.size(); i++){
+                        if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety()-2 == villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()-1][ethan.gety()-2] = "FARM";
+                        }
+                        else if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety()-2 ==villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()+1][ethan.gety()-2] = "FARM";
+
+                        }
+                        else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety()-1 == villagerArray.get(i).gety()){
+                            printedMap[ethan.getx()][ethan.gety()-1] = "FARM";
+
+                        }
+                        else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety()-3 == villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()][ethan.gety()-3] = "FARM";
+
+                        }
+                    }
+                }
+                if (loc.check(ethan.getx(),ethan.gety()-1, monsterArray, potionArray ,  villagerArray)==5){
+                    for (int i = 0; i < villagerArray.size(); i++){
+                        if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety()-1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                        }
+                        else if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety()-1 ==villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+
+                        }
+                        else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety() == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+
+                        }
+                        else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety()-2 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+
+                        }
+                    }
+
+                    System.out.println("You have encountered a villager");
+                    enc[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]="FARM";
+                    String check5 = villagerArray.get(rand).Vi(rand, counter, bosscounter);
+                    if (check5.equals("satchel")){
+                        if (ethan.getGold()>= 30){
+                            ethan.spend(30);
+                            inv.setType("satchel");
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("short sword")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            Sword ss = new Sword("short sword");
+                            inv.setItem(ss, ss.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("long sword")){
+                        if (ethan.getGold()>=40){
+                            ethan.spend(40);
+                            Sword ls = new Sword("long sword");
+                            inv.setItem(ls, ls.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("battle axe (OP)")){
+                        if (ethan.getGold()>=100){
+                            ethan.spend(100);
+                            Sword as = new Sword("battle axe (OP)");
+                            inv.setItem(as, as.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("1/2 energy")){
+                        if (ethan.getGold()>=20){
+                            ethan.spend(20);
+                            Potion p = new Potion("1/2 energy");
+                            p.setPotency(ethan.gethealth());
+                            inv.setItem(p, p.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("full energy")){
+                        if (ethan.getGold()>=40){
+                            ethan.spend(40);
+                            Potion fp = new Potion("full energy");
+                            fp.setPotency(ethan.gethealth());
+                            inv.setItem(fp, fp.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("pheonix down")){
+                        if (ethan.getGold()>=80){
+                            ethan.spend(80);
+                            Potion fd = new Potion("pheonix down");
+                            fd.setPotency(ethan.gethealth());
+                            inv.setItem(fd, fd.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("leather sandels")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            ethan.setspeed(ethan.getspeed()*2);
+                            System.out.println("Speed has doubled");
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("bomb")){
+                        if (ethan.getGold()>=90){
+                            ethan.spend(90);
+                            Bomb b = new Bomb("bomb 1");
+                            inv.setItem(b, b.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    if (rand==1){
+                        hasMap = true;
+                    }
+                    try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                    }
+                    printMap2(printedMap, b);
+                    try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                    }
+                    map[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]=0;
+                    printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]="XXXX";
+                }
+                if (map[ethan.getx()][ethan.gety()-1]==11){
+                    printedMap[ethan.getx()][ethan.gety()-1]= "BOSS";
+                    int e = bossArray.get(bossArray.size()-1).battle(ethan.getspeed(),inv);
+                    if (e == 0){
+                        if (inv.hasPheonix()==true){
+                            inv.removePheonix();
+                            System.out.println("You have been revived using pheonix tear");
+                        }
+                        else{ethan.updateHealth(0);}
+                    }
+                    else if (e == 1010){
+                        System.out.println("You have successfully escaped");
+                    }
+                    else{map[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]=0;
+                        printedMap[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]="XXXX";
+                        bosscounter++;}
+                }
+                map[ethan.getx()][ethan.gety()]= 0;
+                printedMap[ethan.getx()][ethan.gety()]= "XXXX";
+                ethan.left();
+                map[ethan.getx()][ethan.gety()]= 9;
+                printedMap[ethan.getx()][ethan.gety()]= "HERO";
+            }
+            promap[ethan.getx()][ethan.gety()]=promap[ethan.getx()][ethan.gety()]+0.1;
+        }
+        else if (a.equals("s")){
+
+            if (ethan.checkdown() == true){
+                if (loc.check(ethan.getx()+1,ethan.gety(), monsterArray, potionArray,  villagerArray)==1){
+                    System.out.println("You have encountered a monster");
+                    for (int i = 0; i < monsterArray.size(); i++){
+                        if(ethan.getx() == monsterArray.get(i).getx() && ethan.gety() == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx(), ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx()+2 == monsterArray.get(i).getx() && ethan.gety() == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx()+2, ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx()+1 == monsterArray.get(i).getx() && ethan.gety()+1 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx()+1, ethan.gety(), "MONS");
+                        }
+                        else if(ethan.getx()+1 == monsterArray.get(i).getx() && ethan.gety()-1 == monsterArray.get(i).gety()){
+                            rand = i;
+                            printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                            updateprintedMap(ethan.getx()+1, ethan.gety()-1, "MONS");
+                        }
+                    }
+                    printMap2(printedMap, b);
+                    orientation = 1;
+                    enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="MONS";
+                    int e = monsterArray.get(rand).battle(ethan.gethealth(), ethan.herodamage(),  ethan.getDefence(), ethan.getspeed(), orientation, inv);
+                    if(e==0){
+                        System.out.println("GAME OVER");
+                        return "failed";
+                    }
+                    else if (e==1010){
+                        System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                        ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                    }
+                    else {
+                        System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                        ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                        map[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]=0;
+                        printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                        enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                        counter++;
+                        ethan.addGold(10);
+                    }
+                }
+                if (loc.check(ethan.getx()+2,ethan.gety(), monsterArray, potionArray ,  villagerArray)==5){
+                    for (int i = 0; i < villagerArray.size(); i++){
+                        if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety() == villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()+1][ethan.gety()] = "FARM";
+                        }
+                        else if(ethan.getx()+3 == villagerArray.get(i).getx() && ethan.gety() ==villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()+3][ethan.gety()] = "FARM";
+                        }
+                        else if(ethan.getx()+2 == villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()+2][ethan.gety()+1] = "FARM";
+                        }
+                        else if(ethan.getx()+2 == villagerArray.get(i).getx() && ethan.gety()-1 == villagerArray.get(i).gety()){
+
+                            printedMap[ethan.getx()+2][ethan.gety()-1] = "FARM";
+                        }
+                    }
+                }
+                if (loc.check(ethan.getx()+1,ethan.gety(), monsterArray, potionArray ,  villagerArray)==5){
+                    for (int i = 0; i < villagerArray.size(); i++){
+                        if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety() == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                        }
+                        else if(ethan.getx()+2 == villagerArray.get(i).getx() && ethan.gety() ==villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                        }
+                        else if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                        }
+                        else if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety()-1 == villagerArray.get(i).gety()){
+                            rand = i;
+                            printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                        }
+                    }
+                    System.out.println("You have encountered a villager");
+                    enc[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]="FARM";
+                    String check5 = villagerArray.get(rand).Vi(rand, counter, bosscounter);
+                    if (check5.equals("satchel")){
+                        if (ethan.getGold()>= 30){
+                            ethan.spend(30);
+                            inv.setType("satchel");
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("short sword")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            Sword ss = new Sword("short sword");
+                            inv.setItem(ss, ss.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("long sword")){
+                        if (ethan.getGold()>=40){
+                            ethan.spend(40);
+                            Sword ls = new Sword("long sword");
+                            inv.setItem(ls, ls.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("battle axe (OP)")){
+                        if (ethan.getGold()>=100){
+                            ethan.spend(100);
+                            Sword as = new Sword("battle axe (OP)");
+                            inv.setItem(as, as.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("1/2 energy")){
+                        if (ethan.getGold()>=20){
+                            ethan.spend(20);
+                            Potion p = new Potion("1/2 energy");
+                            p.setPotency(ethan.gethealth());
+                            inv.setItem(p, p.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("full energy")){
+                        if (ethan.getGold()>=40){
+                            ethan.spend(40);
+                            Potion fp = new Potion("full energy");
+                            fp.setPotency(ethan.gethealth());
+                            inv.setItem(fp, fp.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("pheonix down")){
+                        if (ethan.getGold()>=80){
+                            ethan.spend(80);
+                            Potion fd = new Potion("pheonix down");
+                            fd.setPotency(ethan.gethealth());
+                            inv.setItem(fd, fd.getPotency());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("leather sandels")){
+                        if (ethan.getGold()>=30){
+                            ethan.spend(30);
+                            ethan.setspeed(ethan.getspeed()*2);
+                            System.out.println("Speed has doubled");
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    else if (check5.equals("bomb")){
+                        if (ethan.getGold()>=90){
+                            ethan.spend(90);
+                            Bomb b = new Bomb("bomb 1");
+                            inv.setItem(b, b.getDamage());
+                        }else {System.out.println("You do not have enough gold.");}
+                    }
+                    if (rand==1){
+                        hasMap = true;
+                    }
+                    try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                    }
+                    printMap2(printedMap, b);
+                    try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                    }
+                    printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()] = "XXXX";
+                }
+                if (map[ethan.getx()+1][ethan.gety()]==11){
+                    printedMap[ethan.getx()+1][ethan.gety()]= "BOSS";
+                    int e = bossArray.get(bossArray.size()-1).battle(ethan.getspeed(),inv);
+                    if (e == 0){
+                        if (inv.hasPheonix()==true){
+                            inv.removePheonix();
+                            System.out.println("You have been revived using pheonix tear");
+                        }
+                        else{ethan.updateHealth(0);}
+                    }
+                    else if (e == 1010){
+                        System.out.println("You have successfully escaped");
+                    }
+                    else{map[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]=0;
+                        printedMap[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]="XXXX";
+                        bosscounter++;}
+                }
+                map[ethan.getx()][ethan.gety()]= 0;
+                printedMap[ethan.getx()][ethan.gety()]= "XXXX";
+                ethan.down();
+                promap[ethan.getx()][ethan.gety()]=promap[ethan.getx()][ethan.gety()]+0.1;
+                map[ethan.getx()][ethan.gety()]= 9;
+            }
+        }
+        else if (a.equals("d")){
+
+            if (loc.check(ethan.getx(),ethan.gety()+1, monsterArray, potionArray,  villagerArray)==1){
+                System.out.println("You have encountered a monster");
+                for (int i = 0; i < monsterArray.size(); i++){
+                    if(ethan.getx()-1 == monsterArray.get(i).getx() && ethan.gety()+1 == monsterArray.get(i).gety()){
+                        rand = i;
+                        printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                    }
+                    else if(ethan.getx()+1 == monsterArray.get(i).getx() && ethan.gety()+1 == monsterArray.get(i).gety()){
+                        rand = i;
+                        printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                    }
+                    else if(ethan.getx() == monsterArray.get(i).getx() && ethan.gety()+2 == monsterArray.get(i).gety()){
+                        rand = i;
+                        printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                    }
+                    else if(ethan.getx() == monsterArray.get(i).getx() && ethan.gety() == monsterArray.get(i).gety()){
+                        rand = i;
+                        printedMap[monsterArray.get(i).getx()][monsterArray.get(i).gety()] = "MONS";
+                    }
+                }
+                printMap2(printedMap, b);
+                orientation = 2;
+                enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="MONS";
+                int e = monsterArray.get(rand).battle(ethan.gethealth(), ethan.herodamage(), ethan.getDefence(), ethan.getspeed(), orientation, inv);
+                if (e==0){
+                    System.out.println("GAME OVER");
+                    return "failed";
+                }
+                else if (e==1010){
+                    System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                    ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                    printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                }
+                else {
+                    System.out.println("Your remaining health is " + monsterArray.get(rand).gethhealth());
+                    ethan.updateHealth(monsterArray.get(rand).gethhealth());
+                    printMap2(printedMap, b);
+                    map[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]=0;
+                    printedMap[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                    enc[monsterArray.get(rand).getx()][monsterArray.get(rand).gety()]="XXXX";
+                    counter++;
+                    ethan.addGold(10);
+                }
+            }
+            if (loc.check(ethan.getx(),ethan.gety()+2, monsterArray, potionArray,  villagerArray)==5){
+                for (int i = 0; i < villagerArray.size(); i++){
+                    if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety()+2 == villagerArray.get(i).gety()){
+
+                        printedMap[ethan.getx()-1][ethan.gety()+2] = "FARM";
+                    }
+                    else if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety()+2 == villagerArray.get(i).gety()){
+
+                        printedMap[ethan.getx()+1][ethan.gety()+2] = "FARM";
+                    }
+                    else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety()+3 ==villagerArray.get(i).gety()){
+
+                        printedMap[ethan.getx()][ethan.gety()+3] = "FARM";
+                    }
+                    else if(ethan.getx() ==villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+
+                        printedMap[ethan.getx()][ethan.gety()+1] = "FARM";
+                    }
+                }
+            }
+            if (loc.check(ethan.getx(),ethan.gety()+1, monsterArray, potionArray,  villagerArray)==5){
+                for (int i = 0; i < villagerArray.size(); i++){
+                    if(ethan.getx()-1 == villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+                        rand = i;
+                        printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                    }
+                    else if(ethan.getx()+1 == villagerArray.get(i).getx() && ethan.gety()+1 == villagerArray.get(i).gety()){
+                        rand = i;
+                        printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                    }
+                    else if(ethan.getx() == villagerArray.get(i).getx() && ethan.gety()+2 ==villagerArray.get(i).gety()){
+                        rand = i;
+                        printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                    }
+                    else if(ethan.getx() ==villagerArray.get(i).getx() && ethan.gety() == villagerArray.get(i).gety()){
+                        rand = i;
+                        printedMap[villagerArray.get(i).getx()][villagerArray.get(i).gety()] = "FARM";
+                    }
+                }
+                System.out.println("You have found a villager");
+                enc[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]="FARM";
+                String check5 = villagerArray.get(rand).Vi(rand, counter, bosscounter);
+                if (check5.equals("satchel")){
+                    if (ethan.getGold()>= 30){
+                        ethan.spend(30);
+                        inv.setType("satchel");
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("short sword")){
+                    if (ethan.getGold()>=30){
+                        ethan.spend(30);
+                        Sword ss = new Sword("short sword");
+                        inv.setItem(ss, ss.getDamage());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("long sword")){
+                    if (ethan.getGold()>=40){
+                        ethan.spend(40);
+                        Sword ls = new Sword("long sword");
+                        inv.setItem(ls, ls.getDamage());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("battle axe (OP)")){
+                    if (ethan.getGold()>=100){
+                        ethan.spend(100);
+                        Sword as = new Sword("battle axe (OP)");
+                        inv.setItem(as, as.getDamage());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("1/2 energy")){
+                    if (ethan.getGold()>=20){
+                        ethan.spend(20);
+                        Potion p = new Potion("1/2 energy");
+                        p.setPotency(ethan.gethealth());
+                        for (int i = 0 ; i < 9; i++){
+                        inv.setItem(p, p.getPotency());
+                        }
+                        
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("full energy")){
+                    if (ethan.getGold()>=40){
+                        ethan.spend(40);
+                        Potion fp = new Potion("full energy");
+                        fp.setPotency(ethan.gethealth());
+                        inv.setItem(fp, fp.getPotency());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("pheonix down")){
+                    if (ethan.getGold()>=80){
+                        ethan.spend(80);
+                        Potion fd = new Potion("pheonix down");
+                        fd.setPotency(ethan.gethealth());
+                        inv.setItem(fd, fd.getPotency());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("leather sandels")){
+                    if (ethan.getGold()>=30){
+                        ethan.spend(30);
+                        ethan.setspeed(ethan.getspeed()*2);
+                        System.out.println("Speed has doubled");
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("bomb")){
+                    if (ethan.getGold()>=90){
+                        ethan.spend(90);
+                        Bomb b = new Bomb("bomb 1");
+                        inv.setItem(b, b.getDamage());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                else if (check5.equals("breastplate")){
+                    if (ethan.getGold()>=30){
+                        ethan.spend(30);
+                        Armor ar = new Armor("breastplate");
+                        inv.setItem(ar, ar.getDefence());
+                    }else {System.out.println("You do not have enough gold.");}
+                }
+                if (rand==1){
+                    hasMap = true;
+                }
+                try{Thread.sleep(800);}catch(InterruptedException e){System.out.println("got interrupted!");
+                }
+                printMap2(printedMap, b);
+                try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+                }
+                printedMap[villagerArray.get(rand).getx()][villagerArray.get(rand).gety()]= "XXXX";
+            }
+            if (map[ethan.getx()][ethan.gety()+1]==11){
+                printedMap[ethan.getx()][ethan.gety()+1] ="BOSS";
+                int e = bossArray.get(bossArray.size()-1).battle(ethan.getspeed(),inv);
+                if (e == 0){
+                    if (inv.hasPheonix()==true){
+                        inv.removePheonix();
+                        System.out.println("You have been revived using pheonix tear");
+                    }
+                    else{ethan.updateHealth(0);}
+                }
+                else if (e == 1010){
+                    System.out.println("You have successfully escaped");
+                }
+                else if (e == 1){map[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]=0;
+                    printedMap[bossArray.get(bosscounter).getX()][bossArray.get(bosscounter).getY()]="XXXX";
+                    bosscounter++;}
+            }
+            if (ethan.checkright()==true){
+                map[ethan.getx()][ethan.gety()]= 0;
+                printedMap[ethan.getx()][ethan.gety()]= "XXXX";
+                ethan.right();
+                promap[ethan.getx()][ethan.gety()]=promap[ethan.getx()][ethan.gety()]+0.1;
+                map[ethan.getx()][ethan.gety()]= 9;
+                printedMap[ethan.getx()][ethan.gety()]= "HERO";
+            }
+        }else{
+            System.out.println("You need to use wasd to move");
+        }
+        if(potionArray2.size()>0){
+            System.out.println("Would you like to equip your potion");
+            String answer = d.next().toLowerCase();
+            if(answer.equals("yes")){
+                inv.setItem((potionArray2.get(0)), potionArray2.get(0).getPotency());
+                potionArray2.remove(potionArray2.get(0));
+            }
+            try{Thread.sleep(1500);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+
+        if (a.equals("open")){
+            System.out.println("You currently have " + inv.getSize() + " objects in your inventory");
+            System.out.println(inv.inventory());
+            if (inv.getSize()>0){
+                System.out.println("Do you want to use an item?");
+                String answer = d.next().toLowerCase();
+                if(answer.equals("yes")){
+                    System.out.println("Which one(Press the corresponding index(1st item = 0, 2nd item = 1, etc.))");
+                    int answer2 = d.nextInt();
+                    int effect = inv.getEffect(answer2);
+                    Object item = inv.useItem(answer2);
+                    inv.removeItem(answer2);
+
+                    if (item.toString().equals("short sword")){
+                        ethan.addDamage(effect);
+                    }
+                    else if (item.toString().equals("long sword")){
+                        ethan.addDamage(effect);
+                    }
+                    else if (item.toString().equals("battle axe (OP)")){
+                        ethan.addDamage(effect);
+                    }
+                    else if (item.toString().equals("1/2 energy")){
+                        ethan.addHealth(effect);
+                    }
+                    else if (item.toString().equals("full energy")){
+                        ethan.addHealth(effect);
+                    }
+                    else if (item.toString().equals("pheonix down")){
+                        ethan.addHealth(effect);
+                    }
+                    else if (item.toString().equals("breastplate")){
+                        ethan.addDefence(effect);
+                    }
+                    else if (item.toString().equals("bomb")){
+                        ethan.addDamage(effect);
+                    }
+
+                }
+                try{Thread.sleep(2000);}catch(InterruptedException e){System.out.println("got interrupted!");
+                }
+
+            }
+        }
+        else if (a.equals("stats")){
+            System.out.println("Health: "+ ethan.gethealth() + " Damage: " + ethan.herodamage() + "\nArmor: "+ ethan.getDefence() + " Money: " + ethan.getGold());
+            System.out.println("Speed: " + ethan.getspeed() +  "Monsters killed:  "+ counter + " Boss(es) killed: " + bosscounter);
+            try{Thread.sleep(2000);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }
+        else if (a.equals("map") && hasMap == true){
+            String c = new String();
+            for (int i = 0; i < 15; i ++){
+                for (int j = 0; j < 15; j++){
+                    c = c + " " + enc[i][j];
+                }
+                c = c + "\n";
+            }
+            System.out.print("\f");
+            System.out.println(c);
+            try{Thread.sleep(2000);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+            c = null;
+        }else if (a.equals("help")){
+            System.out.println("Type 'open' to access your inventory (only works if you have any items)\nType 'stats' to view your health, gold, damage, armor, and speed\nType map to view past entities that you have encountered (only works if you have a map)");
+            try{Thread.sleep(2500);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+        }else if (a.equals("cheat")){
+            String c = new String();
+            for (int i = 0; i < 15; i ++){
+                for (int j = 0; j < 15; j++){
+                    c = c + " " + map[i][j];
+                }
+                c = c + "\n";
+            }
+            System.out.print("\f");
+            System.out.println(c);
+            try{Thread.sleep(1000);}catch(InterruptedException e){System.out.println("got interrupted!");
+            }
+
+        }
+        if(probability(promap[ethan.getx()][ethan.gety()]) == true){
+            if (counter <=18){
+                Monster mon = new Monster(6);
+                orientation = 0;
+                int e = mon.battle(ethan.gethealth(), ethan.herodamage(),  ethan.getDefence(), ethan.getspeed(), orientation, inv);
+                if(e==0){
+                    System.out.println("GAME OVER");
+                    return "failed";
+                }
+                else if (e==1010){
+                    System.out.println("Your remaining health is " + mon.gethhealth());
+                    ethan.updateHealth(mon.gethhealth());
+                    printedMap[mon.getx()][mon.gety()]="XXXX";
+                }
+                else {
+                    System.out.println("Your remaining health is " + mon.gethhealth());
+                    ethan.updateHealth(mon.gethhealth());
+                    map[mon.getx()][mon.gety()]=0;
+                    printedMap[mon.getx()][mon.gety()]="XXXX";
+                    counter++;
+                    ethan.addGold(10);
+                }
+            }
+        }
+
+        
+        
+        updateMap();
+        updateprintedMap(0,0,"XXXX");
+        printMap2(printedMap, b);
+        if (bosscounter==4){
+            return "success";
+        }
+        else if (ethan.gethealth()==0){
+            return "failed";
+        }else{
+            return "playing";
+        }
+    }
+
+    public void printMap2(String[][]map, String b){
+        for (int i = 0; i < 15; i ++){
+            for (int j = 0; j < 15; j++){
+                b = b + " " + printedMap[i][j];
+            }
+            b = b + "\n";
+        }
+        System.out.print("\f");
+        System.out.println(b);
+        b = null;
+    }
+
+    public void updateMap(){
+        for (int i = 0; i < monsterArray.size(); i ++){
+            if(map[monsterArray.get(i).getx()][monsterArray.get(i).gety()]!=1){
+                monsterArray.remove(monsterArray.get(i));
+
+            }else {continue;};
+        }
+        for (int i = 0; i < potionArray.size(); i ++){
+            if(map[potionArray.get(i).getx()][potionArray.get(i).gety()]!=2){
+                potionArray2.add(potionArray.get(i));
+                potionArray.remove(potionArray.get(i));
+
+            };
+        }
+        for (int i = 0; i < villagerArray.size(); i ++){
+            if(map[villagerArray.get(i).getx()][villagerArray.get(i).gety()]!=5){
+                //villagerArray.remove(villagerArray.get(i));
+            };
+        }
+        
+       
+    }
+
+    public void updateprintedMap(int x, int y, String a){
+        printedMap[x][y] = a;
+        printedMap[ethan.getx()][ethan.gety()] = "HERO";
+
+    }
+
+    public int returnHealth(){
+        return ethan.gethealth();
+    }
+
+    public boolean probability(double pro){
+        double random = (int)(Math.random() * (101)) + 0;
+        random = random * pro;
+
+        //try{Thread.sleep(1000);}catch(InterruptedException e){System.out.println("got interrupted!");
+        //   }
+        if (random >= 50){
+            return true;
+        }else {
+            return false;  
+        }
+    }
+}
